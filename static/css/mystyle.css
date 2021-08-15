@@ -1,0 +1,50 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+img {
+    display: block;
+    width: 500px;
+}
+.card{
+    display: inline-block;
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+.card img{
+	width: 85%;
+}
+.card .down_btn_a {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    height: 16px;
+    line-height: 20px;
+    background-color: #20b1aa;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+}
+.card .down_btn_a:hover {
+    background-color: #ccc;
+    color: #000;
+}
+
+.btn { /* 按钮美化 */
+	width: 270px; /* 宽度 */
+	height: 40px; /* 高度 */
+	border-width: 0px; /* 边框宽度 */
+	border-radius: 3px; /* 边框半径 */
+	background: #1E90FF; /* 背景颜色 */
+	cursor: pointer; /* 鼠标移入按钮范围时出现手势 */
+	outline: none; /* 不显示轮廓线 */
+	font-family: Microsoft YaHei; /* 设置字体 */
+	color: white; /* 字体颜色 */
+	font-size: 17px; /* 字体大小 */
+}
+.btn:hover { /* 鼠标移入按钮范围时改变颜色 */
+	background: #5599FF;
+}

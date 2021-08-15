@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="*"/>
+    <meta charset="UTF-8">
+    <title>随机</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename ='css/mystyle.css') }}">
+</head>
+<body>
+<br>
+<!--两个下拉框，一个按钮生产-->
+<div style="text-align: center">
+    <div>
+        <a>头发颜色</a>
+        <a>眼睛颜色</a>
+    </div>
+    <div>
+        <label>
+            <select class="hair" style="font-size: larger">
+                {% if hair == 0 %}
+                    <option value="0" selected>绿色</option>
+                {% else %}
+                    <option value="0">绿色</option>
+                {% endif %}
+                {% if hair == 1 %}
+                    <option value="1" selected>黄色</option>
+                {% else %}
+                    <option value="1">黄色</option>
+                {% endif %}
+                {% if hair == 2 %}
+                    <option value="2" selected>红色</option>
+                {% else %}
+                    <option value="2">红色</option>
+                {% endif %}
+                {% if hair == 3 %}
+                    <option value="3" selected>黑色</option>
+                {% else %}
+                    <option value="3">黑色</option>
+                {% endif %}
+                {% if hair == 4 %}
+                    <option value="4" selected>蓝色</option>
+                {% else %}
+                    <option value="4">蓝色</option>
+                {% endif %}
+                {% if hair == 5 %}
+                    <option value="5" selected>紫色</option>
+                {% else %}
+                    <option value="5">紫色</option>
+                {% endif %}
+
+            </select>
+        </label>
+        <label style="margin-left: 10px">
+            <select class="eye" style="font-size: larger">
+                {% if eye == 0 %}
+                    <option value="0" selected>紫色</option>
+                {% else %}
+                    <option value="0">紫色</option>
+                {% endif %}
+                {% if eye == 1 %}
+                    <option value="1" selected>绿色</option>
+                {% else %}
+                    <option value="1">绿色</option>
+                {% endif %}
+                {% if eye == 2 %}
+                    <option value="2" selected>棕色</option>
+                {% else %}
+                    <option value="2">棕色</option>
+                {% endif %}
+                {% if eye == 3 %}
+                    <option value="3" selected>红色</option>
+                {% else %}
+                    <option value="3">红色</option>
+                {% endif %}
+                {% if eye == 4 %}
+                    <option value="4" selected>蓝色</option>
+                {% else %}
+                    <option value="4">蓝色</option>
+                {% endif %}
+            </select>
+        </label>
+    </div>
+</div>
+<div style="text-align: center">
+    <button id="btn_submit" class="btn">生成</button>
+</div>
+<br>
+<div>
+    {% for i in data %}
+        <div class="card">
+            <img src="{{ url_for('static', filename= './images/'+i) }}">
+
+            <a href="javascript:;" class="down_btn_a">下载</a>
+        </div>
+    {% else %}
+        <li>当迭代的变量不存在时 则执行else</li>
+    {% endfor %}
+</div>
+</body>
+<script>
+    //判断是否为Trident内核浏览器(IE等)函数
+    function browserIsIe() {
+        if (!!window.ActiveXObject || "ActiveXObject" in window) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //创建iframe并赋值的函数,传入参数为图片的src属性值.
+    function createIframe(imgSrc) {
+        //如果隐藏的iframe不存在则创建
+        if ($("#IframeReportImg").length === 0) {
+            $('<iframe style="display:none;" id="IframeReportImg" name="IframeReportImg" onload="downloadImg();" width="0" height="0" src="about:blank"></iframe>').appendTo("body");
+        }
+        //iframe的src属性如不指向图片地址,则手动修改,加载图片
+        if ($('#IframeReportImg').attr("src") != imgSrc) {
+            $('#IframeReportImg').attr("src", imgSrc);
+        } else {
+            //如指向图片地址,直接调用下载方法
+            downloadImg();
+        }
+    }
+
+    //下载图片的函数
+    function downloadImg() {
+        //iframe的src属性不为空,调用execCommand(),保存图片
+        if ($('#IframeReportImg').src != "about:blank") {
+            window.frames["IframeReportImg"].document.execCommand("SaveAs");
+        }
+    }
+
+    //接下来进行事件绑定
+    var aBtn = $(".card .down_btn_a");
+    if (browserIsIe()) {
+        //是ie等,绑定事件
+        aBtn.on("click", function () {
+            var imgSrc = $(this).siblings("img").attr("src");
+            //调用创建iframe的函数
+            createIframe(imgSrc);
+        });
+    } else {
+        aBtn.each(function (i, v) {
+            //支持download,添加属性.
+            var imgSrc = $(v).siblings("img").attr("src");
+            $(v).attr("download", imgSrc);
+            $(v).attr("href", imgSrc);
+        })
+    }
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#btn_submit').click(function () {
+        var hair = $(".hair option:selected").val();
+        var eye = $(".eye option:selected").val();
+        window.location.href = "/special_2?eye=" + eye + "&hair=" + hair;
+    });
+</script>
+</html>
